@@ -1,0 +1,432 @@
+prg1>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+package test1;
+
+import java.sql.*;
+import java.io.*;
+
+public class Demo {
+		public static void main(String args[])
+	{
+		int id;
+		String nm;
+		try {
+		DataInputStream din=new DataInputStream(System.in);
+		System.out.println("Enter information of user.");
+		System.out.println("Enter ID of user.");
+		id=Integer.parseInt(din.readLine());
+		System.out.println("Enter Name of user.");
+		nm=din.readLine();
+			Class.forName("com.mysql.cj.jdbc.Driver");
+		Connection con=DriverManager.getConnection("jdbc:mysql://localhost:3306/stud",
+		"sql","sql123$");
+		PreparedStatement pst=con.prepareStatement("insert into student values(?,?)");
+
+		pst.setInt(1,id);
+		pst.setString(2,nm);
+		int n=pst.executeUpdate();
+
+		if(n>0)
+		{
+		System.out.println("Record is Inserted...!!!");
+		}
+		else {
+		System.out.println("Error...!!!");
+		}
+		pst.close();
+		con.close();
+		}
+		catch(Exception e)
+		{
+		System.out.println(e);
+		}
+		}
+	}
+
+prg2>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+package test1;
+
+import java.sql.*;
+public class test {
+public static void main(String[] args) {
+try {
+Class.forName("com.mysql.jdbc.Driver");
+Connection connection =
+DriverManager.getConnection("jdbc:mysql://localhost:3306/stud", "Nagaraj",
+"Naagu@245");
+Statement statement = connection.createStatement();
+
+String sql = "UPDATE student SET nm = 'prajapathi' WHERE id = 1";
+statement.executeUpdate(sql);
+sql = "SELECT * FROM student";
+ResultSet resultSet = statement.executeQuery(sql);
+while (resultSet.next()) {
+System.out.println(resultSet.getString("id") + ", " +resultSet.getString("nm"));
+}
+resultSet.close();
+statement.close();
+connection.close();
+} catch (Exception e) { e.printStackTrace(); }
+}
+}
+
+
+
+prg3>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+server>>>>
+
+package test1;
+
+import java.net.*;
+import java.io.*;
+
+public class server {
+
+public static void main(String[] args) throws Exception {
+
+ServerSocket ss = new ServerSocket(8888);
+Socket s = ss.accept();
+DataInputStream din = new DataInputStream(s.getInputStream());
+
+DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+BufferedReader br = new BufferedReader(new
+
+InputStreamReader(System.in));
+String str = " ", str2 = " ";
+while(!str.equals("stop"))
+{
+str = din.readUTF();
+System.out.println("Client says : " + str);
+str2 = br.readLine();
+dout.writeUTF(str2);
+dout.flush();
+}
+din.close();
+s.close();
+ss.close();
+
+}
+}
+
+client>>>>>>
+
+package test1;
+
+
+import java.net.*;
+import java.io.*;
+
+public class client {
+
+public static void main(String[] args) throws Exception {
+
+Socket s =new Socket("localhost",8888);
+DataInputStream din = new DataInputStream(s.getInputStream());
+
+DataOutputStream dout = new DataOutputStream(s.getOutputStream());
+BufferedReader br = new BufferedReader(new
+
+InputStreamReader(System.in));
+String str = " ", str2 = " ";
+while(!str.equals("stop"))
+{
+str = br.readLine();
+dout.writeUTF(str2);
+dout.flush();
+str2 = din.readUTF();
+System.out.println("server says:"+str2);
+
+}
+din.close();
+s.close();
+}
+}
+
+
+prg4>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+package test1;
+
+
+
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.InetAddress;
+import java.net.URL;
+import java.net.URLConnection;
+
+public class prg4 {
+		public static void main(String args[])
+	{
+			String urlString = "https://www.geeksforgeeks.org/socket-programming-in-java/"; 
+	        try {
+	          
+	            URL url = new URL(urlString);
+	            URLConnection connection = url.openConnection();
+	            BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+
+	            String inputLine;
+	            System.out.println("Content from URLConnection:");
+	            while ((inputLine = in.readLine()) != null) {
+	            System.out.println(inputLine);
+	            }
+	            in.close();
+
+	            InetAddress address = InetAddress.getByName(url.getHost());
+	            System.out.println("\nResolved Host IP Address: " + address.getHostAddress());
+	       	        } 
+	            catch (Exception e) {
+	            System.err.println("An error occurred: " + e.getMessage());
+		}
+		}
+	}
+
+
+
+
+prg5 >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+package demo2;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+@WebServlet("/servlet1")
+public class demo2 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+       
+	 private String name;
+
+    public void init() throws ServletException {
+	     name = "user";
+	   }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		 response.setContentType("text/html");
+
+	        PrintWriter out = response.getWriter();
+	        out.println("<head><title>Greeting Servlet</title></head>");
+	        out.println("<body>");
+	        out.println("<h1>Hello, " + name + "!</h1>");
+	        out.println("<p>Welcome to our website.</p>");
+	        out.println("</body>");
+	        out.println("</html>");
+
+	}
+}
+
+
+6thprg>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+servlet1>>>>>
+
+package trial1;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.http.HttpSession;
+
+@WebServlet("/servlet1")
+public class servlet1 extends HttpServlet {
+	private static final long serialVersionUID = 1L;   
+      public servlet1() {
+        super();
+       
+    }
+		protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try{
+			response.setContentType("text/html");
+			PrintWriter out = response.getWriter();
+			String n=request.getParameter("userName");
+			out.print("Welcome "+n);
+			HttpSession session=request.getSession();
+			session.setAttribute("uname",n);
+			out.print("<a href='servlet2'>visit</a>");
+			out.close();
+			}catch(Exception e){System.out.println(e);}
+			}
+	
+}
+
+servlet2>>>>>
+
+package trial1;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
+import jakarta.servlet.http.HttpSession;
+
+@WebServlet("/servlet2")
+public class servlet2 extends HttpServlet {
+	private static final long serialVersionUID = 1L;    
+       public servlet2() {
+        super();
+    }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		try{
+			response.setContentType("/text/html");
+			PrintWriter out = response.getWriter();
+			HttpSession session=request.getSession(false);
+			String n=(String)session.getAttribute("uname");
+			out.print("Hello "+n);
+			out.close();
+			}catch(Exception e){System.out.println(e);}
+			}
+
+}
+
+
+HTML>>>>>
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<form action="servlet1">
+Name:<input type="text" name="userName"/><br/>
+<input type="submit" value="go"/>
+</form>
+
+</body>
+</html>
+
+
+XML>>>>>
+
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app>
+<servlet>
+<servlet-name>s1</servlet-name>
+<servlet-class>FirstServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>s1</servlet-name>
+
+<url-pattern>/servlet1</url-pattern>
+</servlet-mapping>
+<servlet>
+<servlet-name>s2</servlet-name>
+<servlet-class>SecondServlet</servlet-class>
+</servlet>
+<servlet-mapping>
+<servlet-name>s2</servlet-name>
+<url-pattern>/servlet2</url-pattern>
+</servlet-mapping>
+</web-app>
+
+
+
+
+
+7thprg>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<H1 ALIGN="center">A Sample Order Form</H1>
+<%!
+String item[] = {"DVD", "CD", "Diskette"};
+double price[] = {19.99, 12.99, 1.99};
+int quantity[] = {2, 9, 24};
+%>
+<TABLE>
+<TR><TD>Item</TD>
+<TD>Price</TD>
+<TD>Quantity</TD>
+<TD>Total Price</TD>
+</TR>
+
+<% for (int i=0; i<3; i++) { %>
+<TR><TD><%= item[i] %></TD>
+<TD><%= price[i] %></TD>
+<TD><%= quantity[i] %></TD>
+<TD><%= price[i] * quantity[i] %></TD>
+</TR>
+<% } //end for loop %>
+</TABLE>
+
+</body>
+</html>
+
+
+8thprg >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+servlet>>>>>>
+
+package data;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import java.io.IOException;
+
+@WebServlet("/servlet1")
+public class servlet1 extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+    public servlet1() {
+        super();
+            }
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.getWriter().append("Served at: ").append(request.getContextPath());
+		String username = request.getParameter("username");
+		String password = request.getParameter("password");
+		String email = request.getParameter("email");
+		System.out.println("Username: " + username);
+		System.out.println("Password: " + password);
+		System.out.println("Email: " + email);
+		response.sendRedirect("NewFile.jsp");
+	}
+
+
+}
+
+jsp>>>>>>
+
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<h2>Registration Form</h2>
+<form action="servlet1" method="get">
+<label for="username">Username:</label>
+<input type="text" id="username" name="username" required><br><br>
+<label for="password">Password:</label>
+<input type="password" id="password" name="password" required><br><br>
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" required><br><br>
+<input type="submit" value="Register">
+</form>
+
+</body>
+</html>
+
+
+
+
