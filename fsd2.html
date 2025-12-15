@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<body>
+<table border="1" id="table"></table>
+<script>
+const data = [
+  { name: "Alice", age: 22 },
+  { name: "Bob", age: 25 }
+];
+const table = document.getElementById("table");
+table.innerHTML = `
+  <tr><th>Name</th><th>Age</th></tr>
+  ${data.map(d => `<tr><td>${d.name}</td><td>${d.age}</td></tr>`).join("")}
+`;
+</script>
+
+</body>
+</html>
