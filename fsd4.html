@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<body>
+<h3>Registration Form</h3>
+Name:<br>
+<input id="name"><br><br>
+Email:<br>
+<input id="email"><br><br>
+Password:<br>
+<input type="password" id="pass"><br><br>
+Confirm Password:<br>
+<input type="password" id="cpass"><br><br>
+<button onclick="register()">Register</button>
+
+<script>
+function register(){
+let n=document.getElementById("name").value;
+let e=document.getElementById("email").value;
+let p=document.getElementById("pass").value;
+let cp=document.getElementById("cpass").value;
+if(n=="" || e=="" || p=="" || cp==""){
+alert("Fill all fields");
+}
+else if(p!=cp){
+alert("Passwords do not match");
+}
+else{
+alert("Registration Successful");
+}
+}
+</script>
+</body>
+</html>
