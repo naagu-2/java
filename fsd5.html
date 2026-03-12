@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Course Catalog</title>
+</head>
+<body>
+<h2>Course List</h2>
+<ul>
+<li><a href="#" onclick="showCourse('Java')">Java</a></li>
+<li><a href="#" onclick="showCourse('Python')">Python</a></li>
+<li><a href="#" onclick="showCourse('React')">React</a></li>
+</ul>
+<h3 id="details"></h3>
+<script>
+function showCourse(course){
+document.getElementById("details").innerHTML =
+"Course Details: " + course;
+}
+</script>
+</body>
+</html>
